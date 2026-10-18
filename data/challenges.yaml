@@ -48,7 +48,7 @@ challenges:
     flag_sha256: "0f8a1f0c689c9e403ae733fc83f3a173d4d5cbeb98b580a4f65f27044b1c7a88"
 
   - slug: stack-the-deck
-    title: Off by one, off by all
+    title: Off by one, off by all moumen
     category: pwn
     points: 400
     min_points: 120
