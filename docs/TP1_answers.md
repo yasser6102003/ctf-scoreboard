@@ -5,8 +5,6 @@ We are only 2 in the team, so each of us reviewed the other's pull request.
 
 Repo: https://github.com/yasser6102003/ctf-scoreboard
 
----
-
 ## Exercise 1
 
 **a)** The two files that start with a dot are `.gitignore` and `.env.example`.
@@ -25,8 +23,6 @@ read it. We would need `git rm --cached .env` and a new commit, but the file is
 still in the history. So if there was a secret in it, we have to consider it
 leaked and change it.
 
----
-
 ## Exercise 2
 
 On `main` we changed the-long-game to 600, and on `tune/lower` to 450. The merge
@@ -43,14 +39,11 @@ of the file. For each part only one branch changed something, so Git just takes
 that change and the merge works alone. Git merges line by line, not file by file.
 (If the two changed lines are right next to each other, it can still conflict.)
 
-**c)** It can run in two places:
-- on our own machine before each commit, with a pre-commit hook (for example the
-  `check-merge-conflict` hook, or `git diff --cached --check`);
-- on GitHub in the CI pipeline (GitHub Actions) on every push and pull request.
-  If we make it a required check on `main`, a file with conflict markers can't be
-  merged even if someone skips the local hook.
-
----
+**c)** It can run in two places. First on our own machine before each commit,
+with a pre-commit hook (for example the `check-merge-conflict` hook, or
+`git diff --cached --check`). Second on GitHub in the CI pipeline (GitHub Actions)
+on every push and pull request. If we make it a required check on `main`, a file
+with conflict markers can't be merged even if someone skips the local hook.
 
 ## Exercise 3
 
@@ -77,17 +70,15 @@ true, but it doesn't help much: we know the bug is somewhere in the 31 changes b
 not which one. Bisect can't go smaller than one commit, so small commits that do
 one thing each make it much more useful.
 
----
-
 ## Exercise 4
 
 On the branch `scratch/secret` we made two commits: `2ec3ac7` adds a fake AWS key
 to `config.py`, and `83b7607` puts the file back like before. We never pushed this
 branch and deleted it after the scan.
 
-**a)**
-- Scan of the working tree: exit code **0**, no leaks found (the file has no key now).
-- Scan of the history: exit code **1**, 1 leak found in 37 commits (in commit `2ec3ac7`).
+**a)** The scan of the working tree gave exit code 0, no leaks found (the file
+has no key now). The scan of the history gave exit code 1, 1 leak found in 37
+commits (in commit `2ec3ac7`).
 
 **b)** The rule is `aws-access-token`. It matched because the value starts with
 `AKIA`, which is how AWS access keys start.
@@ -100,12 +91,11 @@ then the parent hash saved in `83b7607` is wrong, so that one changes too, and s
 on for all the commits after. The only way to really remove the key is to rewrite
 the history and force push.
 
-**d)**
-1. First, revoke the key at the provider (in AWS IAM) and make a new one. Also
-   check the logs to see if someone used it.
-2. Then clean the repo: remove the key from all the history (`git filter-repo` or
-   BFG), force push, and tell everyone to clone again. The new key goes in an
-   environment variable or a secret manager, not in the code.
+**d)** First, revoke the key at the provider (in AWS IAM) and make a new one,
+and check the logs to see if someone used it. Then clean the repo: remove the key
+from all the history (`git filter-repo` or BFG), force push, and tell everyone to
+clone again. The new key goes in an environment variable or a secret manager, not
+in the code.
 
 Why this order: once a key is pushed to a public repo we have to assume someone
 already copied it. Bots scan GitHub all the time and find keys in minutes, and it
@@ -113,15 +103,13 @@ can also be in forks, clones or CI logs. Cleaning the history doesn't delete tho
 copies and takes time. Revoking the key makes all the copies useless right away,
 so it has to come first.
 
----
-
 ## Exercise 5
 
 We protected `main` with a rule: a pull request is required, with 1 approval,
 and force pushes and deletion are blocked. Then each of us made a change on a
-branch and the other one reviewed it:
-- PR #1 (`docs/scoring-docstring`, Yasser): approved and merged by Abdel Moumene (`f7094a9`).
-- PR #2 (`docs/contributing`, Abdel Moumene): approved and merged by Yasser (`21044d6`).
+branch and the other one reviewed it. Abdel Moumene approved and merged PR #1
+(`docs/scoring-docstring`, from Yasser, `f7094a9`), and Yasser approved and merged
+PR #2 (`docs/contributing`, from Abdel Moumene, `21044d6`).
 
 **a)** Without the rule, the attacker can log in as that developer and push
 whatever they want directly to `main`, with no review. For example, they can add
