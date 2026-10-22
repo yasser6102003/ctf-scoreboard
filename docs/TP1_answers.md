@@ -1,6 +1,15 @@
-# TP1 – Source Control Management
+# Lab 1: Source Control Management
 
-Team: Yasser Chiheb (yasser6102003) and Abdel Moumene Senoune (asenouneinf-rgb).
+Module: DevOps
+
+Academic Year: 2026–2027
+
+Instructor: Dr. Ahlem Belabbaci
+
+Team:
+
+- Yasser Chiheb
+- Abdel Moumene Senoune
 
 Repo: https://github.com/yasser6102003/ctf-scoreboard
 
@@ -8,7 +17,7 @@ Repo: https://github.com/yasser6102003/ctf-scoreboard
 
 a) The two hidden files are .gitignore and .env.example.
 
-b) The shell expands \* into filenames before running cp, but it does not include hidden files. Therefore, .gitignore and .env.example would be left out. Without .gitignore, git add . could also add files such as .env, data/scoreboard.db, or \_\_pycache\_\_/. Using ctf-scoreboard/. copies everything inside the folder, including hidden files.
+b) The shell expands \* into filenames before running cp, but it does not include hidden files, .gitignore and .env.example would be left out. Without .gitignore, git add . could also add files such as .env, data/scoreboard.db, or \_\_pycache\_\_/. Using ctf-scoreboard/. copies everything inside the folder, including hidden files.
 
 c) .gitignore only affects files Git is not already tracking. If .env is already committed, adding it to .gitignore will not remove it from Git or from previous commits. We would need git rm --cached .env and a new commit to stop tracking it. If it contained a secret, we should treat it as leaked and change it.
 
@@ -44,8 +53,8 @@ This order matters because public repositories can be scanned quickly, and copie
 
 ## Exercise 5
 
-a) Without branch protection, an attacker using a developer's account could push changes directly to main without a review. They could introduce a backdoor or code that exposes secrets, and the pipeline from Lab Sheet 2 could then build and potentially deploy those changes.
+a) Without branch protection, an attacker using a developers account could push changes directly to main without a review. They could introduce a backdoor or code that exposes secrets, and the pipeline from Lab Sheet 2 could then build and potentially deploy those changes.
 
-b) An attacker could also force-push to rewrite history or delete the main branch. Branch protection blocks these direct actions and requires a pull request with another person's approval. This makes compromising one account less powerful, although the protection is not a complete guarantee if other accounts or permissions are compromised.
+b) attacker could also force-push to rewrite history or delete the main branch. Branch protection blocks these direct actions and requires a pull request with another person's approval. This makes compromising one account less powerful, although the protection is not a complete guarantee if other accounts or permissions are compromised.
 
 c) The lab requires a public repository. On a free GitHub account, the lab uses public repositories for branch protection (Lab Sheet 1), pulling images from GHCR without a password (Lab Sheets 3 and 4), and build attestations (Lab Sheet 6). Since this repository contains no private information and docs/FLAGS.md intentionally contains public flags, making it public is suitable for the lab.
